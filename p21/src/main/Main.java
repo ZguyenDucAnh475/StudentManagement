@@ -20,7 +20,7 @@ public class Main {
             studentController.getMenu();
             int choice = studentController.getChoice("Your choice: ",1, 6);
             if (studentController.isDBEmpty() && (choice != 1) && (choice != 5)) {
-                System.err.println(String.format("You cant choose %d", choice));
+                System.err.println(String.format("Your data base is EMPTY!You cant choose %d!", choice));
                 continue;
             }
             switch (choice) {
@@ -31,7 +31,7 @@ public class Main {
                     studentController.findStudent();
                     break;
                 case 3: // update/delete
-                    studentController.deleteStudent();
+                    studentController.updateORdelete();
                     break;
                 case 4: // report
                     studentController.reportCountCourse();
@@ -40,7 +40,6 @@ public class Main {
                     System.out.println("Exiting ..");
                     return;
                 case 6:
-                    studentController.displayReportList();
                     studentController.displayStudentList();
                     break;
             }

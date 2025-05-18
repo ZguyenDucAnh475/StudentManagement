@@ -61,7 +61,6 @@ public class StudentController implements IProcess<Student>, IReport<Student> {
     }
 
     public void displayReportList() {
-
         for (Report o : reportList) {
             System.out.println(o.toString());
         }
@@ -142,7 +141,70 @@ public class StudentController implements IProcess<Student>, IReport<Student> {
         return reportList;
     }
 
-    public void deleteStudent() {
+    public void updateORdelete() {
+        displayReportList();
+        boolean getUD = inputHandle.checkUD("Do you want to Update/Delete student? ");
+        boolean getYN = inputHandle.checkYN("Do you want to Continue? ");
+        if (getUD) {
+            if (getYN) {
+                updateStudent();
+            } else {
+                System.out.println("Update Cancel!");
+            }
+        } else {
+            if (getYN) {
+                deleteStudent();
+            } else {
+                System.out.println("Delete Cancel!");
+            }
+        }
+    }
+
+    private void updateStudent() {
+        view.printTitle("Update");
+        int idInput = getChoice("Enter ID to update: ", 1, reportList.size());
+        Report reUpdate = findStudentByReportID(idInput);
+        while (reUpdate == null) {
+            System.err.println("Can't find this id!");
+            idInput = getChoice("Enter ID to update: ", 1, reportList.size());
+            reUpdate = findStudentByReportID(idInput);
+        }
+
+        Semester newSemester = getSemesterUserInput();
+        Course newCourse = getCourseUserInput();
+
+        // Remove report
+        Iterator<Report> itReport = reportList.iterator();
+        while (itReport.hasNext()) {
+            Report report = itReport.next();
+            if (report.getIdForReport() == idInput) {
+                report.setSemester(newSemester);
+                report.setCourse(newCourse);
+                break;
+            }
+        }
+
+        // Remove corresponding student
+        Iterator<Student> itStudent = studentList.iterator();
+        while (itStudent.hasNext()) {
+            Student student = itStudent.next();
+            if (student.getId() == reUpdate.getId()) {
+                student.setCourse(reUpdate.getCourse());
+                student.setCourse(reUpdate.getCourse());
+                break;
+            }
+        }
+
+        // Reset idProcess in order
+        for (int i = 0; i < reportList.size(); i++) {
+            reportList.get(i).setIdForReport(i + 1);
+        }
+
+        System.out.println("Update successful!");
+    }
+
+    private void deleteStudent() {
+        view.printTitle("Delete");
         int idInput = getChoice("Enter ID to delete: ", 1, reportList.size());
         Report reDel = findStudentByReportID(idInput);
         while (reDel == null) {

@@ -92,27 +92,50 @@ public class InputHandle {
             }
         }
     }
-    
-    public boolean checkYN(String msg){
-        while(true){
-            System.out.print(msg);
+
+    public boolean checkYN(String msg) {
+        while (true) {
+            System.out.print(msg+"(Yes[Y]/No[N]): ");
             String value = scanner.nextLine().trim();
-            
-            if(value.isEmpty()){
+
+            if (value.isEmpty()) {
                 System.err.println("This value cannot be empty!");
                 continue;
             }
-            
-            if(value.equalsIgnoreCase("y")){
+
+            if (value.equalsIgnoreCase("y")) {
                 return true;
             }
-            
-            if(value.equalsIgnoreCase("n")){
+
+            if (value.equalsIgnoreCase("n")) {
                 return false;
             }
-            
-            System.err.println("Please input 'y' or 'n' ");
-            
+
+            System.err.println("Please input 'y' or 'n'!");
+
+        }
+    }
+
+    public boolean checkUD(String msg) {
+        while (true) {
+            System.out.print(msg + "(Upadte[U]/Delete[D]): ");
+            String value = scanner.nextLine().trim();
+
+            if (value.isEmpty()) {
+                System.err.println("This value cannot be empty!");
+                continue;
+            }
+
+            if (value.equalsIgnoreCase("u")) {
+                return true;
+            }
+
+            if (value.equalsIgnoreCase("d")) {
+                return false;
+            }
+
+            System.err.println("Please input 'u' or 'd'!");
+
         }
     }
 

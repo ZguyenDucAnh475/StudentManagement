@@ -32,9 +32,64 @@ public class InputHandle {
             if (matcher.matches()) {
                 return value;
             } else {
-                System.err.println("Invalid format!");
+                System.err.println(String.format("Invalid format! please input follow up %s", regex));
             }
 
+        }
+    }
+
+    public int getUserLimit(String msg, int min, int max) {
+        while (true) {
+            System.out.print(msg);
+            String value = scanner.nextLine().trim();
+
+            if (value.isEmpty()) {
+                System.err.println("This value cant be empty!");
+                continue;
+            }
+
+            try {
+                int number = Integer.parseInt(value);
+
+                if (number <= 0) {
+                    System.err.println("This value must > 0");
+                    continue;
+                }
+
+                if (number >= min && number <= max) {
+                    return number;
+                } else {
+                    System.err.println(String.format("Please input from %d to %d!", min, max));
+                }
+
+            } catch (NumberFormatException e) {
+                System.err.println("This value must a integer!");
+            }
+        }
+    }
+
+    public int getInt(String msg) {
+        while (true) {
+            System.out.print(msg);
+            String value = scanner.nextLine().trim();
+
+            if (value.isEmpty()) {
+                System.err.println("This value cant be empty!");
+                continue;
+            }
+
+            try {
+                int number = Integer.parseInt(value);
+
+                if (number <= 0) {
+                    System.err.println("This value must > 0");
+                    continue;
+                } else {
+                    return number;
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("This value must a integer!");
+            }
         }
     }
 

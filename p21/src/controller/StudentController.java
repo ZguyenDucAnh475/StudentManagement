@@ -25,6 +25,10 @@ public class StudentController implements IProcess<Student>, IReport<Student> {
 
     private ArrayList<Student> studentList = new ArrayList<>();
 
+    protected ArrayList<Student> getList() {
+        return studentList;
+    }
+
     // ---------------------------------------- VIEW ---------------------------------------------------
     private void displayFindAndSorted(ArrayList<Student> list) {
         for (Student o : list) {
@@ -32,11 +36,23 @@ public class StudentController implements IProcess<Student>, IReport<Student> {
         }
     }
 
+    public void display() {
+        for (Student o : studentList) {
+            System.out.println(o.toString());
+        }
+    }
+
+    public void getMenu() {
+        view.printMenuTitle("Student Management");
+        view.printMenu();
+    }
+
     // ---------------------------------------- XU LY ---------------------------------------------------
     @Override
     public void addStudent() {
+        view.printTitle("Create Student");
         String newStudentID = inputHandle.validateGetString("Enter Student ID: ", "W \\d+");
-        while (!isDuplicatedStudentCode(newStudentID)) {
+        while (isDuplicatedStudentCode(newStudentID)) {
             System.err.println("Your input is duplicated! re-input:");
             newStudentID = inputHandle.validateGetString("Enter Student ID: ", "W \\d+");
         }
@@ -48,6 +64,7 @@ public class StudentController implements IProcess<Student>, IReport<Student> {
 
     @Override
     public void findStudent() {
+        view.printTitle("Find and Sort");
         ArrayList<Student> newList = new ArrayList<>();
         String studentGetID = inputHandle.validateGetString("Enter Student ID: ", "W \\d+");
         Student studentFound = findStudentByID(studentGetID);
@@ -114,31 +131,45 @@ public class StudentController implements IProcess<Student>, IReport<Student> {
     }
 
     // -------------------------------------------------- INPUT --------------------------------------------------
-    private String getStudentIDUserInput() {
-        return "";
+    private void printChoiceCoure() {
+        System.out.println("Choose COURSE:");
+        for (Course c : Course.values()) {
+            System.out.println(c.getNumber() + " - " + c.getCourse());
+        }
     }
 
-    private String getStudentNameUserInput() {
-        return "";
+    private void printChoiceSemester() {
+        System.out.println("Choose SEMESTER:");
+        for (Semester s : Semester.values()) {
+            System.out.println(s.getNumber() + " - " + s.getSemester());
+        }
     }
 
     private Semester getSemesterUserInput() {
-        int semesterChoiceNumber = 1;
+        printChoiceSemester();
+        int semesterChoiceNumber = inputHandle.getInt("Enter Semester Number: ");
         while (Semester.fromSemester(semesterChoiceNumber) == null) {
             System.err.println("Please input number choice in SEMESTER list:");
-            semesterChoiceNumber = 1;
+            printChoiceSemester();
+            semesterChoiceNumber = inputHandle.getInt("Enter Semester Number: ");
         }
 
         return Semester.fromSemester(semesterChoiceNumber);
     }
 
     private Course getCourseUserInput() {
-        int courseChoiceNumber = 1;
+        printChoiceCoure();
+        int courseChoiceNumber = inputHandle.getInt("Enter Course Number: ");
         while (Course.fromCourse(courseChoiceNumber) == null) {
             System.err.println("Please input number choice in COURSE list:");
-            courseChoiceNumber = 1;
+            printChoiceCoure();
+            courseChoiceNumber = inputHandle.getInt("Enter Course Number: ");
         }
 
         return Course.fromCourse(courseChoiceNumber);
+    }
+
+    public int getChoice(int min, int max) {
+        return inputHandle.getUserLimit("your choice: ", min, max);
     }
 }

@@ -11,8 +11,10 @@ package model;
 public enum Course {
     JAVA(1, "Java"),
     PYTHON(2, "Python"),
-    NET(3, ".Net");
-
+    NET(3, ".Net"),
+    C(4, "C"),
+    CPP(5, "CPP");
+    
     private int number;
     private String course;
 

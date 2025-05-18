@@ -92,5 +92,28 @@ public class InputHandle {
             }
         }
     }
+    
+    public boolean checkYN(String msg){
+        while(true){
+            System.out.print(msg);
+            String value = scanner.nextLine().trim();
+            
+            if(value.isEmpty()){
+                System.err.println("This value cannot be empty!");
+                continue;
+            }
+            
+            if(value.equalsIgnoreCase("y")){
+                return true;
+            }
+            
+            if(value.equalsIgnoreCase("n")){
+                return false;
+            }
+            
+            System.err.println("Please input 'y' or 'n' ");
+            
+        }
+    }
 
 }

@@ -4,7 +4,6 @@
  */
 package main;
 
-import controller.ReportController;
 import controller.StudentController;
 
 /**
@@ -14,12 +13,16 @@ import controller.StudentController;
 public class Main {
 
     private StudentController studentController = new StudentController();
-    private ReportController reportController = new ReportController();
 
     private void run() {
+        //studentController.generateDB();
         while (true) {
             studentController.getMenu();
-            int choice = studentController.getChoice(1, 6);
+            int choice = studentController.getChoice("Your choice: ",1, 6);
+            if (studentController.isDBEmpty() && (choice != 1) && (choice != 5)) {
+                System.err.println(String.format("You cant choose %d", choice));
+                continue;
+            }
             switch (choice) {
                 case 1: // create
                     studentController.addStudent();
@@ -28,14 +31,17 @@ public class Main {
                     studentController.findStudent();
                     break;
                 case 3: // update/delete
+                    studentController.deleteStudent();
                     break;
                 case 4: // report
+                    studentController.reportCountCourse();
                     break;
                 case 5: // exit
                     System.out.println("Exiting ..");
                     return;
                 case 6:
-                    studentController.display();
+                    studentController.displayReportList();
+                    studentController.displayStudentList();
                     break;
             }
         }

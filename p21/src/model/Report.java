@@ -42,7 +42,7 @@ public class Report extends Student {
 
     @Override
     public String toString() {
-        return "Report{" + "idForReport=" + idForReport + ", totalOfCourse=" + totalOfCourse + '}';
+        return "Report{" + "idForReport="+getIdForReport() + ", stuentID=" + getStuentID() + ", name=" + getName() + ", semester=" + getSemester().getSemester() + ", course=" + getCourse().getCourse() + ", id=" + getId() + '}';
     }
 
 }

@@ -19,6 +19,11 @@ public class Report extends Student {
         this.totalOfCourse = totalOfCourse;
     }
 
+    public Report(int idForReport, String stuentID, String name, Semester semester, Course course, int id) {
+        super(stuentID, name, semester, course, id);
+        this.idForReport = idForReport;
+    }
+
     public int getIdForReport() {
         return idForReport;
     }

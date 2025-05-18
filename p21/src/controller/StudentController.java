@@ -11,6 +11,7 @@ import model.IReport;
 import model.IProcess;
 import model.Semester;
 import model.Student;
+import utils.InputHandle;
 import view.ProgramView;
 
 /**
@@ -20,6 +21,8 @@ import view.ProgramView;
 public class StudentController implements IProcess<Student>, IReport<Student> {
 
     private ProgramView view = new ProgramView();
+    private InputHandle inputHandle = new InputHandle();
+
     private ArrayList<Student> studentList = new ArrayList<>();
 
     // ---------------------------------------- VIEW ---------------------------------------------------
@@ -32,22 +35,26 @@ public class StudentController implements IProcess<Student>, IReport<Student> {
     // ---------------------------------------- XU LY ---------------------------------------------------
     @Override
     public void addStudent() {
-        String newStudentID = "";
-        String newName = "";
-        Semester newSemester = null;
-        Course newCourse = null;
+        String newStudentID = inputHandle.validateGetString("Enter Student ID: ", "W \\d+");
+        while (!isDuplicatedStudentCode(newStudentID)) {
+            System.err.println("Your input is duplicated! re-input:");
+            newStudentID = inputHandle.validateGetString("Enter Student ID: ", "W \\d+");
+        }
+        String newName = inputHandle.validateGetString("Enter new Name: ", "[a-zA-Z ]+");
+        Semester newSemester = getSemesterUserInput();
+        Course newCourse = getCourseUserInput();
         addToList(newStudentID, newName, newSemester, newCourse);
     }
 
     @Override
     public void findStudent() {
         ArrayList<Student> newList = new ArrayList<>();
-        String studentGetID = "";
+        String studentGetID = inputHandle.validateGetString("Enter Student ID: ", "W \\d+");
         Student studentFound = findStudentByID(studentGetID);
         sortStudent(newList);
         while (studentFound == null) {
-            System.err.println("");
-            studentGetID = "";
+            System.err.println(String.format("No student CODE [%s] found!", studentGetID));
+            studentGetID = inputHandle.validateGetString("Enter Student ID: ", "W \\d+");
             studentFound = findStudentByID(studentGetID);
         }
 
@@ -107,19 +114,31 @@ public class StudentController implements IProcess<Student>, IReport<Student> {
     }
 
     // -------------------------------------------------- INPUT --------------------------------------------------
-    private String setStudentID() {
+    private String getStudentIDUserInput() {
         return "";
     }
 
-    private String setName() {
+    private String getStudentNameUserInput() {
         return "";
     }
 
-    private Semester setSemester() {
-        return null;
+    private Semester getSemesterUserInput() {
+        int semesterChoiceNumber = 1;
+        while (Semester.fromSemester(semesterChoiceNumber) == null) {
+            System.err.println("Please input number choice in SEMESTER list:");
+            semesterChoiceNumber = 1;
+        }
+
+        return Semester.fromSemester(semesterChoiceNumber);
     }
 
-    private Course setCourse() {
-        return null;
+    private Course getCourseUserInput() {
+        int courseChoiceNumber = 1;
+        while (Course.fromCourse(courseChoiceNumber) == null) {
+            System.err.println("Please input number choice in COURSE list:");
+            courseChoiceNumber = 1;
+        }
+
+        return Course.fromCourse(courseChoiceNumber);
     }
 }

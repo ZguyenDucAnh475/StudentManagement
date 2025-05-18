@@ -10,11 +10,21 @@ package model;
  */
 public class Report extends Student {
 
+    private int idForReport;
     private int totalOfCourse;
 
-    public Report(int totalOfCourse, String stuentID, String name, Semester semester, Course course, int id) {
+    public Report(int idForReport, int totalOfCourse, String stuentID, String name, Semester semester, Course course, int id) {
         super(stuentID, name, semester, course, id);
+        this.idForReport = idForReport;
         this.totalOfCourse = totalOfCourse;
+    }
+
+    public int getIdForReport() {
+        return idForReport;
+    }
+
+    public void setIdForReport(int idForReport) {
+        this.idForReport = idForReport;
     }
 
     public int getTotalOfCourse() {
@@ -23,6 +33,11 @@ public class Report extends Student {
 
     public void setTotalOfCourse(int totalOfCourse) {
         this.totalOfCourse = totalOfCourse;
+    }
+
+    @Override
+    public String toString() {
+        return "Report{" + "idForReport=" + idForReport + ", totalOfCourse=" + totalOfCourse + '}';
     }
 
 }

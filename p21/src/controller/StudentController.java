@@ -5,7 +5,9 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import model.Course;
+import model.IReport;
 import model.IProcess;
 import model.Semester;
 import model.Student;
@@ -15,10 +17,17 @@ import view.ProgramView;
  *
  * @author NguyenDucAnh
  */
-public class StudentController implements IProcess {
+public class StudentController implements IProcess<Student>, IReport<Student> {
 
     private ProgramView view = new ProgramView();
     private ArrayList<Student> studentList = new ArrayList<>();
+
+    // ---------------------------------------- VIEW ---------------------------------------------------
+    private void displayFindAndSorted(ArrayList<Student> list) {
+        for (Student o : list) {
+            System.out.println(o.toString());
+        }
+    }
 
     // ---------------------------------------- XU LY ---------------------------------------------------
     @Override
@@ -26,25 +35,41 @@ public class StudentController implements IProcess {
         String newStudentID = "";
         String newName = "";
         Semester newSemester = null;
-        
+        Course newCourse = null;
+        addToList(newStudentID, newName, newSemester, newCourse);
     }
 
     @Override
-    public ArrayList<Student> findStudent() {
+    public void findStudent() {
         ArrayList<Student> newList = new ArrayList<>();
         String studentGetID = "";
+        Student studentFound = findStudentByID(studentGetID);
+        sortStudent(newList);
+        while (studentFound == null) {
+            System.err.println("");
+            studentGetID = "";
+            studentFound = findStudentByID(studentGetID);
+        }
 
+        for (Student o : studentList) {
+            if (o.getStuentID().equals(studentFound.getStuentID())) {
+                newList.add(o);
+            }
+        }
+
+        displayFindAndSorted(newList);
+
+    }
+
+    @Override
+    public ArrayList<Student> sortStudent(ArrayList<Student> newList) {
+        newList.sort(Comparator.comparing(Student::getName));
         return newList;
     }
 
     @Override
-    public ArrayList<?> sortStudent() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public ArrayList<?> report() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<Student> report() {
+        return new ArrayList<>();
     }
 
     // ---------------------------------------- SUPPORT FUNCTION --------------------------------------------------
@@ -72,7 +97,7 @@ public class StudentController implements IProcess {
             id = studentList.get(studentList.size() - 1).getId() + 1;
         }
         try {
-            Student newStudent = new Student(newStudentID, newName, newSemester, newCourse, id);
+            Student newStudent = new Student(newStudentID, newName, newSemester, newCourse, id++);
             studentList.add(newStudent);
             System.out.println("Add Successfull!");
 

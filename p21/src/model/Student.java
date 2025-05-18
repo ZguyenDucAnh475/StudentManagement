@@ -10,11 +10,11 @@ package model;
  */
 public class Student {
 
-    private String stuentID;
-    private String name;
-    private Semester semester;
-    private Course course;
-    private int id;
+    protected String stuentID;
+    protected String name;
+    protected Semester semester;
+    protected Course course;
+    protected int id;
 
     public Student(String stuentID, String name, Semester semester, Course course, int id) {
         this.stuentID = stuentID;

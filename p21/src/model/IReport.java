@@ -10,12 +10,7 @@ import java.util.ArrayList;
  *
  * @author NguyenDucAnh
  */
-public interface IProcess<T> {
+public interface IReport<T> {
 
-    void addStudent();
-
-    void findStudent();
-
-    ArrayList<T> sortStudent(ArrayList<T> newList);
-
+    ArrayList<T> report();
 }
